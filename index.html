@@ -6,14 +6,10 @@
     <!-- 例: スマートフォン用設定 -->
     <meta name="viewport" content="width=device-width, target-densitydpi=low-dpi, initial-scale=0.5">
     <title>タイトル</title>
+<!-- PWA対応 -->
 <link rel="manifest" href="manifest.json">
-<script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('service-worker.js')
-      .then(reg => console.log('Service Worker registered'))
-      .catch(err => console.log('Service Worker error', err));
-  }
-</script>
+<meta name="theme-color" content="#4a90e2">
+<meta name="apple-mobile-web-app-capable" content="yes">
     <!-- BEGIN イカガカ用の設定 -->
     <link rel="stylesheet" href="./css/ikagaka.css">
     <script src="./vendor/js/es6-shim.js"></script>
@@ -47,7 +43,25 @@
     <script src="./js/ikagakaConfig.js"></script>
     <script src="./js/demo.js"></script>
     <!-- END イカガカ用の設定 -->
+<link rel="manifest" href="manifest.json">
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then(reg => console.log('Service Worker registered'))
+      .catch(err => console.log('Service Worker error', err));
+  }
+</script>
   </head>
+  <script>
+  // PWA Service Worker 登録
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(reg => console.log('イカガカ PWA Service Worker 登録完了 ✅', reg))
+        .catch(err => console.log('Service Worker 登録失敗', err));
+    });
+  }
+</script>
   <body>
     <!-- 例: 以下のidが付いたボタンを配置すれば、イカガカの起動終了とデータ消去を制御できます。 -->
     <button id="ikagaka_boot">ベースウェアを起動</button>
