@@ -1,11 +1,12 @@
 {
-  "name": "イカガカ - Web Ukagaka Baseware",
-  "short_name": "イカガカ",
-  "description": "ブラウザで動く本格伺かベースウェア",
-  "start_url": "./",
+  "name": "イカガカ - 伺か Webベースウェア",
+  "short_name": "Ikagaka",
+  "description": "ブラウザで動く透明浮遊型伺か",
+  "start_url": "/index.html",
   "display": "standalone",
-  "background_color": "#f8f8f8",
-  "theme_color": "#4a90e2",
+  "display_override": ["window-controls-overlay"],  // タイトルバーを最小化してよりネイティブ風に
+  "background_color": "#00000000",  // 透過を意識した透明指定（RGBA）
+  "theme_color": "#00000000",
   "orientation": "any",
   "icons": [
     {
