@@ -437,7 +437,52 @@ $(function() {
       return alert(err);
     });
   };
+// ボタンや起動時に呼ぶ関数
+async function openFloatingIkagaka() {
+  if (!('documentPictureInPicture' in window)) {
+    alert('お使いのブラウザはDocument PiPをサポートしていません（Edge/Chrome最新版推奨）');
+    return;
+  }
 
+  try {
+    // 新しい最前面浮遊ウィンドウを作成（サイズは好みで調整）
+    const pipWindow = await window.documentPictureInPicture.requestWindow({
+      width: 400,   // ゴーストの表示サイズに合わせて調整
+      height: 400,
+      preferInitialWindow: true
+    });
+
+    // 元のIkagakaコンテンツをPiPウィンドウにコピー（または直接描画）
+    const pipDocument = pipWindow.document;
+    pipDocument.body.innerHTML = `
+      <style>
+        body, html { 
+          margin: 0; 
+          padding: 0; 
+          background: transparent !important;  /* ← これでウィンドウ自体を透過 */
+          overflow: hidden;
+        }
+        canvas { background: transparent; }  /* IkagakaのCanvasも透過 */
+      </style>
+    `;
+
+    // Ikagakaの本体（CanvasやJS）をPiP側に移動・再描画
+    // （実際はIkagaka.jsのインスタンスをPiPに渡すか、同一オリジンなのでクローン）
+    // 簡易例：元のCanvasを複製して入れる（詳細はIkagakaの構造に合わせて調整）
+    const originalCanvas = document.querySelector('canvas'); // IkagakaのCanvas
+    if (originalCanvas) {
+      const clonedCanvas = originalCanvas.cloneNode(true);
+      pipDocument.body.appendChild(clonedCanvas);
+      // 必要ならイベントハンドラやSHIORIロジックも同期
+    }
+
+    // ウィンドウが閉じられたら処理
+    pipWindow.addEventListener('pagehide', () => console.log('浮遊ウィンドウ閉じました'));
+
+  } catch (err) {
+    console.error('PiP起動失敗:', err);
+  }
+}
   window.boot_nanikamanager = boot_nanikamanager;
   window.halt_nanikamanager = halt_nanikamanager;
   window.delete_storage = delete_storage;
