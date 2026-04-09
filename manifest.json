@@ -2,7 +2,7 @@
   "name": "イカガカ - 伺か Webベースウェア",
   "short_name": "Ikagaka",
   "description": "ブラウザで動く透明浮遊型伺か",
-  "start_url": "/index.html",
+  "start_url": "./index.html",
   "display": "standalone",
   "display_override": ["window-controls-overlay"],  // タイトルバーを最小化してよりネイティブ風に
   "background_color": "#00000000",  // 透過を意識した透明指定（RGBA）
