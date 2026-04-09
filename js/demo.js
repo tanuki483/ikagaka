@@ -575,3 +575,42 @@ async function openFloatingIkagaka() {
     });
   };
 });
+// === Document Picture-in-Picture で浮遊透明ウィンドウを開く ===
+async function openFloatingIkagaka() {
+  if (!('documentPictureInPicture' in window)) {
+    alert('Document PiPはEdge/Chrome最新版でのみ利用可能です');
+    return;
+  }
+
+  try {
+    const pipWindow = await window.documentPictureInPicture.requestWindow({
+      width: 420,   // ゴーストの表示サイズに合わせて調整
+      height: 420,
+    });
+
+    const pipDoc = pipWindow.document;
+    pipDoc.body.innerHTML = `
+      <style>
+        html, body {
+          margin: 0; padding: 0;
+          background: transparent !important;
+          overflow: hidden;
+          width: 100%; height: 100%;
+        }
+        canvas { background: transparent; display: block; }
+      </style>
+    `;
+
+    // Ikagakaの本体（canvasなど）をPiP側に移動・同期
+    const originalCanvas = document.querySelector('canvas'); // またはNanikaのcanvasを特定
+    if (originalCanvas) {
+      const clone = originalCanvas.cloneNode(true);
+      pipDoc.body.appendChild(clone);
+      // 必要に応じてイベントやNanikaインスタンスの同期処理を追加
+    }
+
+    console.log('浮遊ゴーストウィンドウ起動しました');
+  } catch (err) {
+    console.error('PiPエラー:', err);
+  }
+}
