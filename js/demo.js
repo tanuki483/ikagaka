@@ -614,3 +614,4 @@ async function openFloatingIkagaka() {
     console.error('PiPエラー:', err);
   }
 }
+document.getElementById('ikagaka_pip').addEventListener('click', openFloatingIkagaka);
